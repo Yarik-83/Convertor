@@ -1,0 +1,41 @@
+.banner-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px 0px 26px;
+}
+
+.text-white {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 20px;
+  color: #e0e1ea;
+  position: relative;
+  top: -10px;
+}
+
+.text-grey {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 20px;
+  color: #707c87;
+  margin-bottom: 25px;
+  width: 379px;
+}
+
+.small-font {
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 40px;
+  color: #1f1e25;
+}
+
+.large-font {
+  margin: 0;
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 54px;
+  color: #f6f7ff;
+  margin-top: 5px;
+}

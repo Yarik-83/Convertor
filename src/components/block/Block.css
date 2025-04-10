@@ -1,0 +1,14 @@
+
+
+.block {
+    display: flex;
+    justify-content: space-between;
+    padding:   85px 250px 99px;  
+}
+
+
+.block-background {
+    /* background-size: 1360px 416px ; */
+   background-image: url(../../assets/background.png);
+   background-repeat: repeat-x;
+}

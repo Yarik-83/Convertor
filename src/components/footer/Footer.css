@@ -1,0 +1,59 @@
+.footer {
+  background-color: #f6f7ff;
+  padding: 60px 98px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-address {
+  width: 170px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.footer-text_text {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  color: #707c87;
+}
+
+.phone-number {
+  width: 150px;
+  display: flex;
+  gap: 15px;
+
+}
+
+.icon {
+   height: 16px;  
+}
+
+.number-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.number {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 16px;
+  color: #1f1e25;
+}
+
+.number-text {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  color: #707c87;
+}
+
+.social {
+  display: flex;
+  gap: 15px;
+}

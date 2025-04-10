@@ -1,0 +1,33 @@
+.btn-blue {
+  width: 251px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: #2c36f2;
+  border: none;
+}
+
+.btn-white {
+  width: 251px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: #f6f7ff;
+  border: none;
+}
+
+.btn-text_gray {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+  line-height: 60px;
+  color: #707c87;
+}
+
+.btn-text_white {
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+  line-height: 60px;
+  color: #f6f7ff;
+}

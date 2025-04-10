@@ -1,0 +1,18 @@
+.logo-text {
+  font-family: Work Sans;
+  font-weight: 700;
+  font-size: 20px;
+  white-space: nowrap;;
+}
+
+.logo-wrap {    
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  height: 23px;
+
+}
+
+.img {
+  height: 23px;
+}

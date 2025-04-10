@@ -1,0 +1,11 @@
+
+.reg {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    /* margin-left: 185px; */
+}
+
+.text {
+   white-space: nowrap;
+}

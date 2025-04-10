@@ -1,0 +1,37 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  padding: 34px 100px 34px 87px;
+  background-color: #f6f7ff;
+}
+
+.link {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  color: #707c87;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link :hover {
+  color: #2c36f2;
+}
+
+.menu-row {
+  position: relative;
+  right: 120px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  width: 400px;
+}
+
+.menu-collum {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
