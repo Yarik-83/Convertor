@@ -2,6 +2,7 @@ import './Banner.css';
  import MyButton from '../button/MyButton';
 
 
+
 export default function Banner(props){
 
     return (

@@ -14,7 +14,16 @@
   white-space: nowrap;
 }
 
-.link :hover {
+.link :hoverP {
+  color: #2c36f2;
+}
+
+.link-active {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
   color: #2c36f2;
 }
 
