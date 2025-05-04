@@ -1,15 +1,33 @@
-import * as React from "react";
-import { Box,OutlinedInput,Select,Typography,MenuItem,} from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker,DateField  } from "@mui/x-date-pickers";
-import Button from "@mui/material/Button";
+import { Box } from "@mui/material";
 import SyncAltSharpIcon from "@mui/icons-material/SyncAltSharp";
-import CalendarMonthSharpIcon from "@mui/icons-material/CalendarMonthSharp";
-import InputAdornment from '@mui/material/InputAdornment';
-
+import MakeButton from "./MakeButton.jsx";
+import MyText from "./MyText.jsx";
+import MySelect from "./MySelect.jsx";
+import MyInput from "./MyInput.jsx";
+import MyDate from "./MyDate.jsx";
+import { useStore } from "../store.js";
 
 export default function BlockConvert() {
+  const { data, addData } = useStore();
+
+//   useEffect(() => {
+ 
+//   }, []);
+
+// }
+
+
+// const url = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${20250504}&json`
+
+//   fetch(url)
+//   .then(response => response.json())
+//   .then(result => console.log(result))
+
+
+  function changeData() {
+    addData();
+  }
+
   return (
     <Box sx={{ bgcolor: "#F6F7FF", px: 25, py: 10 }}>
       <Box component="form" sx={{ bgcolor: "#FFFFFF", py: 7, px: 6 }}>
@@ -19,7 +37,6 @@ export default function BlockConvert() {
           fontW={700}
           fontS={40}
           color="#1F1E25"
-          sx={{ pb: 9 }}
         />
         <Box
           sx={{
@@ -27,6 +44,7 @@ export default function BlockConvert() {
             justifyContent: "space-between",
             gap: 5,
             position: "relative",
+            mt: 8,
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
@@ -38,8 +56,7 @@ export default function BlockConvert() {
               color="#707C87"
             />
             <Box sx={{ display: "flex", gap: 2 }}>
-              <MyInput />
-              <MySelect />
+              <Wrap />
             </Box>
           </Box>
           <SyncAltSharpIcon
@@ -53,12 +70,13 @@ export default function BlockConvert() {
               fontS={20}
               color="#707C87"
             />
-          <Wrap/>
+            <Wrap />
           </Box>
         </Box>
         <Box sx={{ pt: 3, display: "flex", justifyContent: "space-between" }}>
           <MyDate />
-          <MadeButton
+          <MakeButton
+            onClick={changeData}
             sx={{ alignItems: "end" }}
             text="Зберегти результат"
             h={60}
@@ -73,155 +91,10 @@ export default function BlockConvert() {
 }
 
 function Wrap() {
-
-
   return (
     <Box sx={{ display: "flex", gap: 2 }}>
-    <MyInput />
-    <MySelect />
-  </Box>
-    
-  )
-  
-}
-
-
-export function MyText(props) {
-  const { tag, text, fontW, fontS, color } = props;
-  return (
-    <Typography
-      component={tag}
-      sx={{ fontWeight: fontW, fontSize: fontS, color: color }}
-    >
-      {text}
-    </Typography>
+      <MyInput />
+      <MySelect />
+    </Box>
   );
 }
-
-export function MadeButton(props) {
-  const { text, h, w, bg, color } = props;
-  return (
-    <Button
-      variant="outlined"
-      sx={{
-        "&.MuiButton-root": {
-          bgcolor: bg,
-          color: color,
-        },
-        "&.MuiButton-outlined": {
-          height: h,
-          width: w,
-        },
-      }}
-    >
-      {text}
-    </Button>
-  );
-}
-
-function MySelect() {
-  const [currency, setCurrency] = React.useState("1");
-  const [open, setOpen] = React.useState(false);
-
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  return (
-    <Select
-      content="select"
-      sx={{
-        "&.MuiSelect-root": {
-          width: 120,
-          height: 60,
-          fontSize: "20px",
-          textAlign: "center",
-          fontWeight: "600",
-          color: "#707C87",
-          "&.Mui-focused fieldset": { borderColor: "#C1C2CA" },
-          "&.MuiOutlinedInput-input": { color: "#C1C2CA" },
-        },
-      }}
-      id=""
-      open={open}
-      onClose={handleClose}
-      onOpen={handleOpen}
-      value={currency}
-      onChange={handleChange}
-    >
-      <MenuItem value={1}>UAN</MenuItem>
-      <MenuItem value={2}>USD</MenuItem>
-      <MenuItem value={3}>EUR</MenuItem>
-      <MenuItem value={4}>GBR</MenuItem>
-      <MenuItem value={5}>CNY</MenuItem>
-    </Select>
-  );
-}
-
-function MyInput() {
-  return (
-    <OutlinedInput
-      component="input"
-      name="input-offer"
-      variant="outlined"
-      type="text"
-      size="medium"
-      autoComplete="off"
-      sx={{
-        "& .MuiInputBase-input": {
-          fontSize: "20px",
-          textAlign: "center",
-          fontWeight: "600",
-          color: "#707C87",
-        },
-        "&.MuiOutlinedInput-root": {
-          width: 220,
-          height: 60,
-          "&.Mui-focused fieldset": { borderColor: "#C1C2CA" },
-          "&.MuiOutlinedInput-input": { color: "#C1C2CA" },
-        },
-      }}
-    />
-  );
-}
-
-function MyDate() {
- 
-  return (<>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker 
-        sx={{
-          ".MuiInputBase-input": {
-            fontSize: "20px",
-            textAlign: "center",
-            fontWeight: "600",
-            color: "#707C87",
-          },
-          ".MuiOutlinedInput-root": {
-            width: 220,
-            height: 60,
-            "&.Mui-focused fieldset": { borderColor: "#C1C2CA" },
-            "&.MuiOutlinedInput-input": { color: "#C1C2CA" },
-          },
-        }}
-      />
-    </LocalizationProvider>
-    
-  </>
-
-
-  );
-}
-
-//  startAdornment={
-//   <InputAdornment position="start">
-//   <CalendarMonthSharpIcon />
-// </InputAdornment>
-// }

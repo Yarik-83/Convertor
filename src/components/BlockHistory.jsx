@@ -1,7 +1,23 @@
-import { MadeButton, MyText } from "./BlockConvert";
-import { Box,Typography } from "@mui/material";
+import { Box } from "@mui/material"; 
+import MyText from "./MyText.jsx";
+import MakeButton from './MakeButton';
+// import HistoryList from './history/HistoryList.jsx';
+// import {makeData}from '../data.js';
+import { useStore } from "../store.js";
 
-export default function BloclHistory() {
+//  const arrHistory = makeData(9)
+
+
+
+export default function BlockHistory() {
+
+const {data,removeData} = useStore()
+
+
+  function clearData(){
+    removeData()
+  }
+
   return (
     <Box sx={{ bgcolor: "#FFFFFF", px: 25, py: 10 }}>
       <Box sx={{ bgcolor: "#F6F7FF", py: 5, px: 8 }}>
@@ -14,7 +30,8 @@ export default function BloclHistory() {
             color="#1F1E25"
             sx={{ pb: 4 }}
           />
-          <MadeButton
+          <MakeButton
+            onClick={clearData}
             text="Очистити історію"
             h={51}
             w={187}
@@ -22,66 +39,8 @@ export default function BloclHistory() {
             color="#F6F7FF"
           />
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 6,
-            pt: 4,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              gap: 2,
-            }}
-          >
-            <HistoryOfRate />
-            <HistoryOfRate />
-            <HistoryOfRate />
-            <HistoryOfRate />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              gap: 2,
-            }}
-          >
-            <HistoryOfRate />
-            <HistoryOfRate />
-            <HistoryOfRate />
-            <HistoryOfRate />
-          </Box>
-        </Box>
+        {/* <HistoryList arr={data}/> */}
       </Box>
     </Box>
   );
-}
-
-function HistoryOfRate(props) {
-
-const{data}=props;
-
-  return (
-    <Box sx={{ bgcolor: "#FFFFFF", width: 392, height: 42, display:'flex', alignItems:'center',  justifyContent:'center'}}>
-      <Typography sx={{ color: "#707C87",
-         fontWeight: "600",}}>{data}</Typography>
-    </Box>
-   
-  );
-}
-
-
-function ShowHistory(props) {
-const{arrDate,text,}= props;
-const listItems = arrDate.map((date,index) => (
-  <li key={index}>
-    <Typography component={p} > {text} </Typography>
-  </li>
-));
-return <ul >{listItems}</ul>;
 }
