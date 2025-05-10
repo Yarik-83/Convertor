@@ -8,14 +8,43 @@ import MyDate from "./MyDate.jsx";
 import { useStore } from "../store.js";
 import { useEffect } from "react";
 
+
+
+
 export default function BlockConvert() {
   const { data, getData } = useStore();
   const { inputValueFrom, setInputValueFrom } = useStore();
-  const { selectValueIHave, setSelectValueIHave } = useStore();
-  const { selectValueIWant, setSelectValueIWant } = useStore();
+  const { selectValueFrom, setSelectValueFrom } = useStore();
+  const { selectValueTo, setSelectValueTo } = useStore();
   const { inputValueTo, setInputValueTo } = useStore();
-  const { rateIHave, setRateIHave } = useStore();
-  const { rateIWant, setRateIWant } = useStore();
+  const { rateFrom, setRateFrom } = useStore();
+  const { rateTo, setRateTo } = useStore();
+
+
+  function getRateFromSelect(data, value) {
+    //  debugger
+    let multiplier = 1;
+    for (let obj of data) {
+     
+      if (obj.cc === value) {
+        console.log(obj.rate)
+       multiplier = obj.rate;
+      break;
+      }
+    }
+    console.log(`My multiplier: ${multiplier}`);
+    return multiplier;
+  }
+
+  function colculator(a,b,c) {
+    if (a && b && c) {
+     // debugger;
+     const sum = (a * b) / c;
+      return sum;
+    }
+  }
+  
+
 
   const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20250202&json`;
   const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
@@ -26,30 +55,36 @@ export default function BlockConvert() {
       .then((result) => getData(result));
   }, []);
 
-  useEffect(() => {
 
-    console.log(data[23],data[24],data[31],data[2]);
-  }, [data]);
+
+  useEffect(() => {
+    const sum = colculator(inputValueFrom,getRateFromSelect(data, selectValueFrom),getRateFromSelect(data, selectValueTo))
+    setRateTo(sum);
+     console.log(sum);
+
+  }, [data,inputValueFrom,selectValueFrom,selectValueTo]);
+
+  useEffect(() => {
+    console.log(inputValueTo)
+  }, [inputValueTo]);
+
+
+// useEffect(()=>{
+//   console.log(rateFrom)
+// },[,inputValueFrom])
+
+
+
+
+
+
+
 
   function changeData() {
     addData();
   }
 
-  const propsIHave = {    // як пропс передати обєктом?
-    data: { data },
-    fn: { setInputValueFrom },
-    inputValue: { inputValueFrom },
-    selectValue: { selectValueIHave },
-    setSelectValue: { setSelectValueIHave },
-  };
 
-  const propsIWant = {      // як пропс передати обєктом?
-    data: { data },
-    fn: { setInputValueTo },
-    inputValue: { inputValueTo },
-    selectValue: { selectValueIWant },
-    setSelectValue: { setSelectValueIWant },
-  };
   return (
     <Box sx={{ bgcolor: "#F6F7FF", px: 25, py: 10 }}>
       <Box component="form" sx={{ bgcolor: "#FFFFFF", py: 7, px: 6 }}>
@@ -80,12 +115,12 @@ export default function BlockConvert() {
             <Box sx={{ display: "flex", gap: 2 }}>
               {/* <Wrap  props={propsIHave }/> */}
               <Wrap
-                data={data}
-                fn={setInputValueFrom}
-                setRate={setRateIHave}
-                inputValue={inputValueFrom}
-                selectValue={selectValueIHave}
-                setSelectValue={setSelectValueIHave}
+                // data={data}
+                // setRate={setRateFrom}
+                 fn={setInputValueFrom}
+                // inputValue={inputValueFrom}
+                 selectValue={selectValueFrom}
+                 setSelectValue={setSelectValueFrom}
               />
             </Box>
           </Box>
@@ -102,11 +137,12 @@ export default function BlockConvert() {
             />
             {/* <Wrap  props={propsIHave }/> */}
             <Wrap
-              fn={setInputValueTo}
-              inputValue={inputValueTo}
-              selectValue={selectValueIWant}
-              setSelectValue={setSelectValueIWant}
-              data={data} setRate={setRateIWant}
+              // data={data}
+              // setRate={setRateTo}
+               fn={setInputValueTo}
+              // inputValue={inputValueTo}
+               selectValue={selectValueTo}
+               setSelectValue={setSelectValueTo}
             />
           </Box>
         </Box>
@@ -127,14 +163,15 @@ export default function BlockConvert() {
   );
 }
 
-function Wrap({ fn, inputValue, selectValue, setSelectValue, data,setRate}) {
+function Wrap({ fn, inputValue, selectValue, setSelectValue, data, setRate }) {
   return (
     <Box sx={{ display: "flex", gap: 2 }}>
       <MyInput fn={fn} inputValue={inputValue} />
       <MySelect
         selectValue={selectValue}
         setSelectValue={setSelectValue}
-        data={data} setRate={setRate}
+        data={data}
+        setRate={setRate}
       />
     </Box>
   );

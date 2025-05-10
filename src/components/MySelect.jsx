@@ -2,59 +2,41 @@ import React, { useState, useEffect } from "react";
 import { Select, MenuItem } from "@mui/material";
 import { useStore } from "../store.js";
 
-
-
 export default function MySelect(props) {
-
   const [open, setOpen] = useState(false);
 
-  const{selectValue,setSelectValue,data,setRate} = props;
- 
-  let selectedCurrency = {};
- 
+  const { selectValue, setSelectValue, data, setRate } = props;
 
-  useEffect(() => {
 
-      setRate(getRateFromSelect(data,selectValue))
-  }, [selectValue]);
+  const { inputValueFrom, setInputValueFrom } = useStore();
+  const { inputValueTo, setInputValueTo } = useStore();
+  const { selectValueFrom, setSelectValueFrom } = useStore();
+  const { selectValueTo, setSelectValueTo } = useStore();
+
+
 
 
   
-  function getRateFromSelect(data,value){
-
-    let multiplier = 1;
-    // let arr = [];
-    for(let obj of data){
-      if(obj.cc === value){
-        selectedCurrency = obj;
-        multiplier = obj.rate;
-      }
-      // arr.push(Object.values(obj));
-    // if(Object.values(obj).includes(value)){
-    //   multiplier = obj.rate;
-    // }
-    // }
-    //   if(!arr.flat().includes(value)){
-    //   multiplier = 1;
-     }
-    //  if(!multiplier){
-    //   multiplier = 1;
-    //  }
-    console.log(multiplier);
-     return multiplier;
+  useEffect(()=>{
+    // console.log(selectValue)
   }
+ 
+  ,[selectValue])
+
 
 
   const handleChange = (event) => {
     setSelectValue(event.target.value);
+
+ 
   };
 
   const handleClose = () => {
-    setOpen(false)
+    setOpen(false);
   };
 
   const handleOpen = () => {
-    setOpen(true)
+    setOpen(true);
   };
   return (
     <Select
@@ -86,3 +68,4 @@ export default function MySelect(props) {
     </Select>
   );
 }
+

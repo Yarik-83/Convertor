@@ -14,10 +14,10 @@ export const useStore = create((set) => ({
 
   inputValueFrom: "",
   inputValueTo: "",
-  selectValueIHave: 'UAN',
-  selectValueIWant: 'USD',
-  rateIHave: '',
-  rateIWant: '',
+  selectValueFrom: 'UAN',
+  selectValueTo: 'USD',
+  rateFrom: '',
+  rateTo: '',
   amount:'',
 
   setDateValue: (value) => set({ dateValue: value }),
@@ -29,14 +29,36 @@ export const useStore = create((set) => ({
   setInputValueFrom: (value) => set({ inputValueFrom: value}),
   setInputValueTo: (value) => set({ inputValueTo: value }),
 
-  setSelectValueIHave: (value) => set({selectValueIHave: value}),
-  setSelectValueIWant: (value) => set({selectValueIWant: value}),
+  setSelectValueFrom: (value) => set({selectValueFrom: value}),
+  setSelectValueTo: (value) => set({selectValueTo: value}),
 
-  setRateIHave: (value) => set({rateIHave: value}),
-  setRateIWant: (value) => set({rateIWant: value}),
+  setRateFrom: (value) => set({inputValueFrom: value}),
+  setRateTo: (value) => set({inputValueTo: value}),
 
   // setAmount: (amount)=> set({inputValueTo: amount}),
 }));
 
 
 
+
+
+function colculator() {
+  if (rateFrom && inputValueFrom && rateTo) {
+   // debugger;
+   const sum = (inputValueFrom * rateFrom) / rateTo;
+   setInputValueTo(sum.toFixed(3));
+  }
+}
+
+
+function getRateFromSelect(data, value) {
+  let multiplier = 1;
+  for (let obj of data) {
+    if (obj.cc === value) {
+      selectedCurrency = obj;
+      multiplier = obj.rate;
+    }
+  }
+  console.log(multiplier);
+  return multiplier;
+}
