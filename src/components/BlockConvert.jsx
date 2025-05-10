@@ -6,28 +6,50 @@ import MySelect from "./MySelect.jsx";
 import MyInput from "./MyInput.jsx";
 import MyDate from "./MyDate.jsx";
 import { useStore } from "../store.js";
+import { useEffect } from "react";
 
 export default function BlockConvert() {
-  const { data, addData } = useStore();
+  const { data, getData } = useStore();
+  const { inputValueFrom, setInputValueFrom } = useStore();
+  const { selectValueIHave, setSelectValueIHave } = useStore();
+  const { selectValueIWant, setSelectValueIWant } = useStore();
+  const { inputValueTo, setInputValueTo } = useStore();
+  const { rateIHave, setRateIHave } = useStore();
+  const { rateIWant, setRateIWant } = useStore();
 
-//   useEffect(() => {
- 
-//   }, []);
+  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20250202&json`;
+  const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
 
-// }
+  useEffect(() => {
+    fetch(urlAll)
+      .then((response) => response.json())
+      .then((result) => getData(result));
+  }, []);
 
+  useEffect(() => {
 
-// const url = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${20250504}&json`
-
-//   fetch(url)
-//   .then(response => response.json())
-//   .then(result => console.log(result))
-
+    console.log(data[23],data[24],data[31],data[2]);
+  }, [data]);
 
   function changeData() {
     addData();
   }
 
+  const propsIHave = {    // як пропс передати обєктом?
+    data: { data },
+    fn: { setInputValueFrom },
+    inputValue: { inputValueFrom },
+    selectValue: { selectValueIHave },
+    setSelectValue: { setSelectValueIHave },
+  };
+
+  const propsIWant = {      // як пропс передати обєктом?
+    data: { data },
+    fn: { setInputValueTo },
+    inputValue: { inputValueTo },
+    selectValue: { selectValueIWant },
+    setSelectValue: { setSelectValueIWant },
+  };
   return (
     <Box sx={{ bgcolor: "#F6F7FF", px: 25, py: 10 }}>
       <Box component="form" sx={{ bgcolor: "#FFFFFF", py: 7, px: 6 }}>
@@ -56,7 +78,15 @@ export default function BlockConvert() {
               color="#707C87"
             />
             <Box sx={{ display: "flex", gap: 2 }}>
-              <Wrap />
+              {/* <Wrap  props={propsIHave }/> */}
+              <Wrap
+                data={data}
+                fn={setInputValueFrom}
+                setRate={setRateIHave}
+                inputValue={inputValueFrom}
+                selectValue={selectValueIHave}
+                setSelectValue={setSelectValueIHave}
+              />
             </Box>
           </Box>
           <SyncAltSharpIcon
@@ -70,7 +100,14 @@ export default function BlockConvert() {
               fontS={20}
               color="#707C87"
             />
-            <Wrap />
+            {/* <Wrap  props={propsIHave }/> */}
+            <Wrap
+              fn={setInputValueTo}
+              inputValue={inputValueTo}
+              selectValue={selectValueIWant}
+              setSelectValue={setSelectValueIWant}
+              data={data} setRate={setRateIWant}
+            />
           </Box>
         </Box>
         <Box sx={{ pt: 3, display: "flex", justifyContent: "space-between" }}>
@@ -90,11 +127,15 @@ export default function BlockConvert() {
   );
 }
 
-function Wrap() {
+function Wrap({ fn, inputValue, selectValue, setSelectValue, data,setRate}) {
   return (
     <Box sx={{ display: "flex", gap: 2 }}>
-      <MyInput />
-      <MySelect />
+      <MyInput fn={fn} inputValue={inputValue} />
+      <MySelect
+        selectValue={selectValue}
+        setSelectValue={setSelectValue}
+        data={data} setRate={setRate}
+      />
     </Box>
   );
 }

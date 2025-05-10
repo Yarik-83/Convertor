@@ -1,22 +1,42 @@
 
 import { create } from "zustand";
-// import { makeData } from "./data";
+import { currency } from "./data";
 import dayjs from "dayjs";
 
 
-const currentDate = dayjs().format()
+const currentDate = dayjs().format('DD.MM.YYYY')
 
 
 export const useStore = create((set) => ({
-  inputValue: "",
-  selectValue: 1,
-//   data: makeData(9),
+
+  data: [],
   defaultDate: currentDate,
-  setInputValue: (value) => set({ inputValue: value }),
-  removeData: () => set({ data: [] }),
-  addData: () => set({ data: makeData() }),
-  setSelectValue: (value) => set({selectValue: value}),
+
+  inputValueFrom: "",
+  inputValueTo: "",
+  selectValueIHave: 'UAN',
+  selectValueIWant: 'USD',
+  rateIHave: '',
+  rateIWant: '',
+  amount:'',
+
   setDateValue: (value) => set({ dateValue: value }),
+
+  getData: (result) => set({ data: result  }),
+  removeData: () => set({ data: [] }),
+
+
+  setInputValueFrom: (value) => set({ inputValueFrom: value}),
+  setInputValueTo: (value) => set({ inputValueTo: value }),
+
+  setSelectValueIHave: (value) => set({selectValueIHave: value}),
+  setSelectValueIWant: (value) => set({selectValueIWant: value}),
+
+  setRateIHave: (value) => set({rateIHave: value}),
+  setRateIWant: (value) => set({rateIWant: value}),
+
+  // setAmount: (amount)=> set({inputValueTo: amount}),
 }));
+
 
 
