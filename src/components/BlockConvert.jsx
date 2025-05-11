@@ -8,45 +8,19 @@ import MyDate from "./MyDate.jsx";
 import { useStore } from "../store.js";
 import { useEffect } from "react";
 
-
-
-
 export default function BlockConvert() {
   const { data, getData } = useStore();
   const { inputValueFrom, setInputValueFrom } = useStore();
   const { selectValueFrom, setSelectValueFrom } = useStore();
   const { selectValueTo, setSelectValueTo } = useStore();
   const { inputValueTo, setInputValueTo } = useStore();
-  const { rateFrom, setRateFrom } = useStore();
-  const { rateTo, setRateTo } = useStore();
+  // const { dateRate, setDateRate } = useStore();
 
 
-  function getRateFromSelect(data, value) {
-    //  debugger
-    let multiplier = 1;
-    for (let obj of data) {
-     
-      if (obj.cc === value) {
-        console.log(obj.rate)
-       multiplier = obj.rate;
-      break;
-      }
-    }
-    console.log(`My multiplier: ${multiplier}`);
-    return multiplier;
-  }
-
-  function colculator(a,b,c) {
-    if (a && b && c) {
-     // debugger;
-     const sum = (a * b) / c;
-      return sum;
-    }
-  }
-  
+  const dateRate = '20250505'
 
 
-  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20250202&json`;
+  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateRate}&json`;
   const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
 
   useEffect(() => {
@@ -56,34 +30,9 @@ export default function BlockConvert() {
   }, []);
 
 
-
-  useEffect(() => {
-    const sum = colculator(inputValueFrom,getRateFromSelect(data, selectValueFrom),getRateFromSelect(data, selectValueTo))
-    setRateTo(sum);
-     console.log(sum);
-
-  }, [data,inputValueFrom,selectValueFrom,selectValueTo]);
-
-  useEffect(() => {
-    console.log(inputValueTo)
-  }, [inputValueTo]);
-
-
-// useEffect(()=>{
-//   console.log(rateFrom)
-// },[,inputValueFrom])
-
-
-
-
-
-
-
-
   function changeData() {
     addData();
   }
-
 
   return (
     <Box sx={{ bgcolor: "#F6F7FF", px: 25, py: 10 }}>
@@ -113,14 +62,15 @@ export default function BlockConvert() {
               color="#707C87"
             />
             <Box sx={{ display: "flex", gap: 2 }}>
-              {/* <Wrap  props={propsIHave }/> */}
               <Wrap
-                // data={data}
-                // setRate={setRateFrom}
-                 fn={setInputValueFrom}
-                // inputValue={inputValueFrom}
-                 selectValue={selectValueFrom}
-                 setSelectValue={setSelectValueFrom}
+                fn={setInputValueFrom}
+                inputValue={inputValueFrom}
+                selectValue={selectValueFrom}
+                setInputValue={setInputValueTo}
+                setSelectValue={setSelectValueFrom}
+                // selectValue1={selectValueFrom}
+                // selectValue2={selectValueTo}
+                // buy={true}
               />
             </Box>
           </Box>
@@ -135,14 +85,15 @@ export default function BlockConvert() {
               fontS={20}
               color="#707C87"
             />
-            {/* <Wrap  props={propsIHave }/> */}
             <Wrap
-              // data={data}
-              // setRate={setRateTo}
-               fn={setInputValueTo}
-              // inputValue={inputValueTo}
-               selectValue={selectValueTo}
-               setSelectValue={setSelectValueTo}
+              fn={setInputValueTo}
+              inputValue={inputValueTo}
+              selectValue={selectValueTo}
+              setInputValue={setInputValueFrom}
+              setSelectValue={setSelectValueTo}
+              // selectValue1={selectValueTo}
+              // selectValue2={selectValueFrom}
+              // buy={false}
             />
           </Box>
         </Box>
@@ -163,15 +114,26 @@ export default function BlockConvert() {
   );
 }
 
-function Wrap({ fn, inputValue, selectValue, setSelectValue, data, setRate }) {
+function Wrap({
+  fn,
+  inputValue,
+  selectValue,
+  setSelectValue,
+  setInputValue,
+  // selectValue1,
+  // selectValue2,
+  // buy,
+}) {
   return (
     <Box sx={{ display: "flex", gap: 2 }}>
       <MyInput fn={fn} inputValue={inputValue} />
       <MySelect
         selectValue={selectValue}
         setSelectValue={setSelectValue}
-        data={data}
-        setRate={setRate}
+        setInputValue={setInputValue}
+        // selectValue1={selectValue1}
+        // selectValue2={selectValue2}
+        // buy={buy}
       />
     </Box>
   );

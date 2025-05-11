@@ -16,9 +16,7 @@ export const useStore = create((set) => ({
   inputValueTo: "",
   selectValueFrom: 'UAN',
   selectValueTo: 'USD',
-  rateFrom: '',
-  rateTo: '',
-  amount:'',
+
 
   setDateValue: (value) => set({ dateValue: value }),
 
@@ -32,10 +30,6 @@ export const useStore = create((set) => ({
   setSelectValueFrom: (value) => set({selectValueFrom: value}),
   setSelectValueTo: (value) => set({selectValueTo: value}),
 
-  setRateFrom: (value) => set({inputValueFrom: value}),
-  setRateTo: (value) => set({inputValueTo: value}),
-
-  // setAmount: (amount)=> set({inputValueTo: amount}),
 }));
 
 

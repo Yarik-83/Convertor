@@ -2,10 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Select, MenuItem } from "@mui/material";
 import { useStore } from "../store.js";
 
+
+
+
 export default function MySelect(props) {
+
   const [open, setOpen] = useState(false);
 
-  const { selectValue, setSelectValue, data, setRate } = props;
+  const { selectValue, setSelectValue} = props;
 
 
   const { inputValueFrom, setInputValueFrom } = useStore();
@@ -14,30 +18,32 @@ export default function MySelect(props) {
   const { selectValueTo, setSelectValueTo } = useStore();
 
 
-
-
   
   useEffect(()=>{
     // console.log(selectValue)
   }
- 
   ,[selectValue])
-
 
 
   const handleChange = (event) => {
     setSelectValue(event.target.value);
-
+  
+    // setInputValueFrom('')
+    // setInputValueTo('')
  
   };
+
 
   const handleClose = () => {
     setOpen(false);
   };
 
+
   const handleOpen = () => {
     setOpen(true);
   };
+
+
   return (
     <Select
       content="select"
