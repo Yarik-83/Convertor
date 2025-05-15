@@ -36,10 +36,10 @@ export default function BlockConvert() {
 
 
 
-  useEffect(() => {
-    console.log(dateUrl)
-     setDateValue()   //then delit
-  },[data])
+  // useEffect(() => {
+  //   console.log(dateUrl)
+  //    setDateValue()   //then delit
+  // },[data])
 
 
   // const formattedDate = defaultDate().format('YYYY.MM.DD').split('.').join('');

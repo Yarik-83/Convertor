@@ -6,7 +6,7 @@ const currentDate = dayjs().format('MM.DD.YYYY')
 export const useStore = create((set,get) => ({
 
   defaultDate: currentDate,
-  dateUrl: '',
+   dateSevenDayAgo: '' ,
   
   data: [],
 
@@ -22,10 +22,17 @@ export const useStore = create((set,get) => ({
 
   setDateValue: (value) => set({ defaultDate: value }),
 
-  getData: (result) => set({ data: result  }),
+  // setPastDate: () => {
+  //   const {defaultDate,dateSevenDayAgo} = get();
+  //   console.log(defaultDate)
+  //   set({dateSevenDayAgo: defaultDate - 7 })
+  //   // console.log(dateSevenDayAgo)
+  // },
+
+  getData: (result) => set({ data: result}),
   
   setInputValueFrom: (value) => set({ inputValueFrom: value}),
-  setInputValueTo: (value) => set({ inputValueTo: value }),
+  setInputValueTo: (value) => set({ inputValueTo: value }), 
 
   setSelectValueFrom: (value) => set({selectValueFrom: value}),
   setSelectValueTo: (value) => set({selectValueTo: value}),
