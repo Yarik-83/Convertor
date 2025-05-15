@@ -1,49 +1,31 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Select, MenuItem } from "@mui/material";
 import { useStore } from "../store.js";
-
-
-
+import { getRateFromSelect } from "../store.js";
 
 export default function MySelect(props) {
-
   const [open, setOpen] = useState(false);
 
-  const { selectValue, setSelectValue} = props;
+  const { selectValue, setSelectValue, setRate, setSum } = props;
 
-
-  const { inputValueFrom, setInputValueFrom } = useStore();
-  const { inputValueTo, setInputValueTo } = useStore();
-  const { selectValueFrom, setSelectValueFrom } = useStore();
-  const { selectValueTo, setSelectValueTo } = useStore();
-
-
-  
-  useEffect(()=>{
-    // console.log(selectValue)
-  }
-  ,[selectValue])
+  const { data } = useStore();
 
 
   const handleChange = (event) => {
-    setSelectValue(event.target.value);
-  
-    // setInputValueFrom('')
-    // setInputValueTo('')
- 
+    const value = event.target.value;
+    setSelectValue(value);
+    const currencyRate = getRateFromSelect(data, value);
+    setRate(currencyRate);
+    setSum();
   };
-
 
   const handleClose = () => {
     setOpen(false);
   };
 
-
   const handleOpen = () => {
     setOpen(true);
   };
-
-
   return (
     <Select
       content="select"
@@ -74,4 +56,3 @@ export default function MySelect(props) {
     </Select>
   );
 }
-

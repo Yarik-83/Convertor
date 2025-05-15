@@ -1,58 +1,60 @@
-
 import { create } from "zustand";
-import { currency } from "./data";
 import dayjs from "dayjs";
 
+const currentDate = dayjs().format('MM.DD.YYYY')
 
-const currentDate = dayjs().format('DD.MM.YYYY')
+export const useStore = create((set,get) => ({
 
-
-export const useStore = create((set) => ({
-
-  data: [],
   defaultDate: currentDate,
+  dateUrl: '',
+  
+  data: [],
 
   inputValueFrom: "",
   inputValueTo: "",
+
   selectValueFrom: 'UAN',
   selectValueTo: 'USD',
 
+  rateFrom: '',
+  rateTo: '',
+  
 
-  setDateValue: (value) => set({ dateValue: value }),
+  setDateValue: (value) => set({ defaultDate: value }),
 
   getData: (result) => set({ data: result  }),
-  removeData: () => set({ data: [] }),
-
-
+  
   setInputValueFrom: (value) => set({ inputValueFrom: value}),
   setInputValueTo: (value) => set({ inputValueTo: value }),
 
   setSelectValueFrom: (value) => set({selectValueFrom: value}),
   setSelectValueTo: (value) => set({selectValueTo: value}),
 
+  setRateFrom: (value) => set({rateFrom: value}),
+  setRateTo: (value) => set({rateTo: value}),
+
+  setSumFrom: () => {
+    const {rateFrom,rateTo,inputValueFrom} = get();
+    const sumFrom = inputValueFrom * rateFrom / rateTo
+    set({inputValueTo: Math.floor(sumFrom * 100) / 100 })
+  } ,
+  setSumTo: () => {
+     const {rateFrom,rateTo,inputValueTo} = get();
+     const sumTo
+      = inputValueTo * rateTo / rateFrom
+     set({inputValueFrom: Math.floor(sumTo * 100) / 100 })
+  } ,
 }));
 
 
 
-
-
-function colculator() {
-  if (rateFrom && inputValueFrom && rateTo) {
-   // debugger;
-   const sum = (inputValueFrom * rateFrom) / rateTo;
-   setInputValueTo(sum.toFixed(3));
-  }
-}
-
-
-function getRateFromSelect(data, value) {
+export function getRateFromSelect(data, value) {
   let multiplier = 1;
   for (let obj of data) {
     if (obj.cc === value) {
-      selectedCurrency = obj;
+
       multiplier = obj.rate;
     }
   }
-  console.log(multiplier);
   return multiplier;
 }

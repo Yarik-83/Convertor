@@ -2,75 +2,23 @@ import { OutlinedInput } from "@mui/material";
 import { useStore } from "../store.js";
 import { useEffect } from "react";
 
-export default function MyInput({ fn, inputValue,buy}) {
+export default function MyInput({ setInputValue, inputValue, setSum }) {
 
-  const { inputValueFrom, setInputValueFrom } = useStore();
-  const { inputValueTo, setInputValueTo } = useStore();
-  const { selectValueFrom, setSelectValueFrom} = useStore();
-  const { selectValueTo, setSelectValueTo } = useStore();
-  const { data, getData } = useStore();
-
-   
-  function getRateFromSelect(data, value) {
-    //  debugger
-    let multiplier = 1;
-    for (let obj of data) {
-     
-      if (obj.cc === value) {
-       multiplier = obj.rate;
-      break;
-      }
-    }
-    return multiplier;
-  }
-
-  function colculator(from,sum,to,) {
-    if (from && sum && to) {
-     const result = (sum * from) / to;
-     console.log(Math.floor(result*10)/10)
-      return  result;
-    }
-  }
-  
-//=================
-
-  useEffect(() => {
-    // debugger
-    const sum = colculator(inputValueFrom,getRateFromSelect(data, selectValueFrom),getRateFromSelect(data, selectValueTo))
-    if(sum){
-      console.log(sum);
-      setInputValueTo(sum)
-    } else{
-      setInputValueFrom('')
-      setInputValueTo('')
-    }   
-  }, [data,inputValueFrom]);
-
-
-
-  // useEffect(() => {
-  //   // debugger
-  //   const sum = colculator(inputValueTo,getRateFromSelect(data, selectValueTo),getRateFromSelect(data, selectValueFrom))
-  //   if(sum){
-  //     setInputValueFrom(sum)
-  //   } else{
-  //     setInputValueFrom('')
-  //     setInputValueTo('')
-  //   }   
-  // }, [data,inputValueTo]);
-
-
-//======================
+  const { setInputValueTo, setInputValueFrom } = useStore();
 
 
   function handleChange(e) {
-    //  debugger
-    const value = e.target.value;
+     
+    const value = Number(e.target.value);
     const pattern = /^$|[0-9]+$/;
     if (pattern.test(value)) {
-       fn(Number(value));
-       setInputValueFrom(value)
-       
+      if(value){
+        setInputValue(value);
+        setSum(value)
+      }else{
+        setInputValueTo('')
+        setInputValueFrom('')
+      }
     }
   }
 

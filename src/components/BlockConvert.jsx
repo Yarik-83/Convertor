@@ -7,20 +7,45 @@ import MyInput from "./MyInput.jsx";
 import MyDate from "./MyDate.jsx";
 import { useStore } from "../store.js";
 import { useEffect } from "react";
+import { getRateFromSelect } from "../store.js";
+import dayjs from "dayjs";
+
 
 export default function BlockConvert() {
-  const { data, getData } = useStore();
-  const { inputValueFrom, setInputValueFrom } = useStore();
-  const { selectValueFrom, setSelectValueFrom } = useStore();
-  const { selectValueTo, setSelectValueTo } = useStore();
-  const { inputValueTo, setInputValueTo } = useStore();
-  // const { dateRate, setDateRate } = useStore();
+  const {
+    data,
+    getData,
+    inputValueFrom,
+    setInputValueFrom,
+    selectValueFrom,
+    setSelectValueFrom,
+    selectValueTo,
+    setSelectValueTo,
+    inputValueTo,
+    setInputValueTo,
+    setRateFrom,
+    setRateTo,
+    setSumFrom,
+    setSumTo,
+    dateUrl,
+    setDateUrl,
+    defaultDate,
+    setDateValue,
+    
+  } = useStore();
 
 
-  const dateRate = '20250505'
+
+  useEffect(() => {
+    console.log(dateUrl)
+     setDateValue()   //then delit
+  },[data])
 
 
-  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${dateRate}&json`;
+  // const formattedDate = defaultDate().format('YYYY.MM.DD').split('.').join('');
+  // console.log(formattedDate)
+
+  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20250202&json`;
   const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
 
   useEffect(() => {
@@ -29,6 +54,11 @@ export default function BlockConvert() {
       .then((result) => getData(result));
   }, []);
 
+  useEffect(() => {
+    setRateFrom(getRateFromSelect(data, selectValueFrom));
+    setRateTo(getRateFromSelect(data, selectValueTo));
+   
+  }, [data]);
 
   function changeData() {
     addData();
@@ -63,14 +93,12 @@ export default function BlockConvert() {
             />
             <Box sx={{ display: "flex", gap: 2 }}>
               <Wrap
-                fn={setInputValueFrom}
+                setInputValue={setInputValueFrom}
                 inputValue={inputValueFrom}
                 selectValue={selectValueFrom}
-                setInputValue={setInputValueTo}
                 setSelectValue={setSelectValueFrom}
-                // selectValue1={selectValueFrom}
-                // selectValue2={selectValueTo}
-                // buy={true}
+                setRate={setRateFrom}
+                setSum={setSumFrom}
               />
             </Box>
           </Box>
@@ -86,14 +114,12 @@ export default function BlockConvert() {
               color="#707C87"
             />
             <Wrap
-              fn={setInputValueTo}
+              setInputValue={setInputValueTo}
               inputValue={inputValueTo}
               selectValue={selectValueTo}
-              setInputValue={setInputValueFrom}
               setSelectValue={setSelectValueTo}
-              // selectValue1={selectValueTo}
-              // selectValue2={selectValueFrom}
-              // buy={false}
+              setRate={setRateTo}
+              setSum={setSumTo}
             />
           </Box>
         </Box>
@@ -115,25 +141,25 @@ export default function BlockConvert() {
 }
 
 function Wrap({
-  fn,
+  setInputValue,
   inputValue,
   selectValue,
   setSelectValue,
-  setInputValue,
-  // selectValue1,
-  // selectValue2,
-  // buy,
+  setRate,
+  setSum,
 }) {
   return (
     <Box sx={{ display: "flex", gap: 2 }}>
-      <MyInput fn={fn} inputValue={inputValue} />
+      <MyInput
+        setInputValue={setInputValue}
+        inputValue={inputValue}
+        setSum={setSum}
+      />
       <MySelect
         selectValue={selectValue}
         setSelectValue={setSelectValue}
-        setInputValue={setInputValue}
-        // selectValue1={selectValue1}
-        // selectValue2={selectValue2}
-        // buy={buy}
+        setRate={setRate}
+        setSum={setSum}
       />
     </Box>
   );
