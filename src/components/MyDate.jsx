@@ -3,41 +3,28 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useStore } from "../store";
 import dayjs from "dayjs";
+
+
+
 import { useEffect } from "react";
 
+
 export default function MyDate() {
-  const { defaultDate, setDateValue, dateSevenDayAgo, setPastDate } = useStore();
+  const { defaultDate, setDateValue } = useStore();
 
-
-
-  const today = new Date();
-  const sevenDaysAgo = new Date();
-  sevenDaysAgo.setDate(today.getDate() - 7);
-
-
-
-  useEffect(() => {
-
-    console.log(sevenDaysAgo);
-  }, [defaultDate]);
 
   function changDate(value) {
-    setDateValue(value.format("DD.MM.YYYY"));
+    setDateValue(value);
   }
+   const dateSevenDayAgo = dayjs().subtract(7, 'day');
 
-
-
-
-  //  const a = dayjs(defaultDate).get("month");
- 
-  //  debugger
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
         value={dayjs(defaultDate)}
         onChange={changDate}
-        // minDate={dayjs(defaultDate)}
-        // maxDate={dayjs(dateSevenDayAgo)}
+        minDate={dayjs(dateSevenDayAgo)}
+        maxDate={dayjs()}
         sx={{
           ".MuiInputBase-input": {
             fontSize: "20px",
@@ -57,26 +44,3 @@ export default function MyDate() {
   );
 }
 
-// import{useState} from 'react';
-// import dayjs, { Dayjs } from 'dayjs';
-
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
-// export default function MyDate() {
-// const [value, setValue] = useState(dayjs('2022-04-17'));
-
-// return (
-// <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-// <DatePicker label="Uncontrolled picker" defaultValue={dayjs('2022-04-17')} />
-// <DatePicker
-// label="Controlled picker"
-// value={value}
-// onChange={(newValue) => setValue(newValue)}
-// />
-
-// </LocalizationProvider>
-// );
-// }

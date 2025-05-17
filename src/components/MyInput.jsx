@@ -4,7 +4,8 @@ import { useEffect } from "react";
 
 export default function MyInput({ setInputValue, inputValue, setSum }) {
 
-  const { setInputValueTo, setInputValueFrom } = useStore();
+  const { setInputValueTo, setInputValueFrom, } = useStore();
+
 
 
   function handleChange(e) {
@@ -14,7 +15,7 @@ export default function MyInput({ setInputValue, inputValue, setSum }) {
     if (pattern.test(value)) {
       if(value){
         setInputValue(value);
-        setSum(value)
+          setSum()
       }else{
         setInputValueTo('')
         setInputValueFrom('')

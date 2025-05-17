@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import dayjs from "dayjs";
 
-const currentDate = dayjs().format('MM.DD.YYYY')
+const currentDate = dayjs()
+
 
 export const useStore = create((set,get) => ({
 
   defaultDate: currentDate,
-   dateSevenDayAgo: '' ,
+  // dateSevenDayAgo: '' ,
+  // dateUrl: currentDate,
   
   data: [],
 
@@ -18,14 +20,19 @@ export const useStore = create((set,get) => ({
 
   rateFrom: '',
   rateTo: '',
-  
 
-  setDateValue: (value) => set({ defaultDate: value }),
+   setDateValue: (value) => set({ defaultDate: value }),
 
-  // setPastDate: () => {
-  //   const {defaultDate,dateSevenDayAgo} = get();
-  //   console.log(defaultDate)
-  //   set({dateSevenDayAgo: defaultDate - 7 })
+  // setDateUrl: () => {
+  //  const {defaultDate} = get();
+  //   set({dateUrl: defaultDate})
+  // },
+
+
+  // setPastDate: (num) => {
+  //    const {defaultDate,dateSevenDayAgo} = get();
+  //   // console.log(defaultDate)
+  //   set({dateSevenDayAgo: defaultDate.subtract(num, 'day')  })
   //   // console.log(dateSevenDayAgo)
   // },
 
@@ -42,14 +49,21 @@ export const useStore = create((set,get) => ({
 
   setSumFrom: () => {
     const {rateFrom,rateTo,inputValueFrom} = get();
-    const sumFrom = inputValueFrom * rateFrom / rateTo
+    console.log(rateFrom,rateTo,inputValueFrom);
+    if(inputValueFrom){
+       const sumFrom = inputValueFrom * rateFrom / rateTo;
+       console.log(Math.floor(sumFrom * 100) / 100 );
     set({inputValueTo: Math.floor(sumFrom * 100) / 100 })
+    } 
   } ,
   setSumTo: () => {
      const {rateFrom,rateTo,inputValueTo} = get();
-     const sumTo
-      = inputValueTo * rateTo / rateFrom
+      console.log(rateFrom,rateTo,inputValueTo);
+     if(inputValueTo){
+      const sumTo = inputValueTo * rateTo / rateFrom;
+       console.log( Math.floor(sumTo * 100) / 100 );
      set({inputValueFrom: Math.floor(sumTo * 100) / 100 })
+      }
   } ,
 }));
 
@@ -59,8 +73,8 @@ export function getRateFromSelect(data, value) {
   let multiplier = 1;
   for (let obj of data) {
     if (obj.cc === value) {
-
       multiplier = obj.rate;
+      // console.log(`Course on gate: ${multiplier}`);
     }
   }
   return multiplier;

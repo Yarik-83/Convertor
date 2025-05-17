@@ -10,7 +10,6 @@ import { useEffect } from "react";
 import { getRateFromSelect } from "../store.js";
 import dayjs from "dayjs";
 
-
 export default function BlockConvert() {
   const {
     data,
@@ -31,33 +30,22 @@ export default function BlockConvert() {
     setDateUrl,
     defaultDate,
     setDateValue,
-    
   } = useStore();
 
+  const date = defaultDate.format("YYYYMMDD");
 
-
-  // useEffect(() => {
-  //   console.log(dateUrl)
-  //    setDateValue()   //then delit
-  // },[data])
-
-
-  // const formattedDate = defaultDate().format('YYYY.MM.DD').split('.').join('');
-  // console.log(formattedDate)
-
-  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20250202&json`;
-  const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
+  const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${date}&json`;
+  // const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
 
   useEffect(() => {
     fetch(urlAll)
       .then((response) => response.json())
       .then((result) => getData(result));
-  }, []);
+  }, [defaultDate]);
 
   useEffect(() => {
     setRateFrom(getRateFromSelect(data, selectValueFrom));
     setRateTo(getRateFromSelect(data, selectValueTo));
-   
   }, [data]);
 
   function changeData() {
