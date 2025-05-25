@@ -7,8 +7,8 @@ import MyInput from "./MyInput.jsx";
 import MyDate from "./MyDate.jsx";
 import { useStore } from "../store.js";
 import { useEffect } from "react";
-import { getRateFromSelect } from "../store.js";
-import dayjs from "dayjs";
+import {getRateFromSelect} from "../store.js";
+
 
 export default function BlockConvert() {
   const {
@@ -26,16 +26,18 @@ export default function BlockConvert() {
     setRateTo,
     setSumFrom,
     setSumTo,
-    dateUrl,
-    setDateUrl,
+    setHistory,
     defaultDate,
-    setDateValue,
+    setCourse,
+    course,
+    inputName,
+    history,
   } = useStore();
 
-  const date = defaultDate.format("YYYYMMDD");
+
+   const date = defaultDate.format('YYYYMMDD')
 
   const urlAll = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=${date}&json`;
-  // const urlСurrencyOnDate = `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=EUR&date=20250101&json`;
 
   useEffect(() => {
     fetch(urlAll)
@@ -46,10 +48,23 @@ export default function BlockConvert() {
   useEffect(() => {
     setRateFrom(getRateFromSelect(data, selectValueFrom));
     setRateTo(getRateFromSelect(data, selectValueTo));
-  }, [data]);
+    setCourse();
+  }, [data, selectValueTo, selectValueFrom, defaultDate]);
 
-  function changeData() {
-    addData();
+  useEffect(() => {
+    if (inputName === "From") {
+      setSumFrom();
+    } else if (inputName === "To") {
+      setSumTo();
+    }
+  }, [inputValueFrom, inputValueTo, course]);
+
+  useEffect(() => {
+ console.log(history);
+  }, [history]);
+
+  function addHistory() {
+      setHistory()
   }
 
   return (
@@ -114,7 +129,7 @@ export default function BlockConvert() {
         <Box sx={{ pt: 3, display: "flex", justifyContent: "space-between" }}>
           <MyDate />
           <MakeButton
-            onClick={changeData}
+            onClick={addHistory}
             sx={{ alignItems: "end" }}
             text="Зберегти результат"
             h={60}
@@ -152,3 +167,4 @@ function Wrap({
     </Box>
   );
 }
+

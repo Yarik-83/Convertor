@@ -1,24 +1,19 @@
 import { OutlinedInput } from "@mui/material";
 import { useStore } from "../store.js";
-import { useEffect } from "react";
 
-export default function MyInput({ setInputValue, inputValue, setSum }) {
-
-  const { setInputValueTo, setInputValueFrom, } = useStore();
-
+export default function MyInput({ setInputValue, inputValue }) {
+  const {setInputValueFrom,setInputValueTo} = useStore();
 
 
   function handleChange(e) {
-     
-    const value = Number(e.target.value);
-    const pattern = /^$|[0-9]+$/;
+    const value = e.target.value;
+     const pattern = /^$|^\d*\.?\d*$/;
     if (pattern.test(value)) {
-      if(value){
+      if (value) {
         setInputValue(value);
-          setSum()
-      }else{
-        setInputValueTo('')
-        setInputValueFrom('')
+      } else {
+        setInputValueTo("");
+        setInputValueFrom("");
       }
     }
   }

@@ -4,23 +4,18 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useStore } from "../store";
 import dayjs from "dayjs";
 
-
-
-import { useEffect } from "react";
-
-
 export default function MyDate() {
   const { defaultDate, setDateValue } = useStore();
-
 
   function changDate(value) {
     setDateValue(value);
   }
-   const dateSevenDayAgo = dayjs().subtract(7, 'day');
+  const dateSevenDayAgo = dayjs().subtract(7, "day");
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
+        formatDensity="spacious"
         value={dayjs(defaultDate)}
         onChange={changDate}
         minDate={dayjs(dateSevenDayAgo)}
@@ -43,4 +38,3 @@ export default function MyDate() {
     </LocalizationProvider>
   );
 }
-

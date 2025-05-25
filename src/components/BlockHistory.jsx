@@ -1,21 +1,17 @@
 import { Box } from "@mui/material"; 
 import MyText from "./MyText.jsx";
 import MakeButton from './MakeButton';
-// import HistoryList from './history/HistoryList.jsx';
-// import {makeData}from '../data.js';
+ import HistoryList from './history/HistoryList.jsx';
 import { useStore } from "../store.js";
-
-//  const arrHistory = makeData(9)
 
 
 
 export default function BlockHistory() {
 
-const {data,removeData} = useStore()
-
+const {history,removeHistoru} = useStore()
 
   function clearData(){
-    removeData()
+    removeHistoru()
   }
 
   return (
@@ -39,7 +35,7 @@ const {data,removeData} = useStore()
             color="#F6F7FF"
           />
         </Box>
-        {/* <HistoryList arr={data}/> */}
+        <HistoryList arr={history}/>
       </Box>
     </Box>
   );

@@ -1,81 +1,129 @@
 import { create } from "zustand";
+import { persist } from 'zustand/middleware';
 import dayjs from "dayjs";
 
-const currentDate = dayjs()
+const currentDate = dayjs();
 
+export const useStore = create(
+  persist((set, get) => ({
+    
+    defaultDate: currentDate,
 
-export const useStore = create((set,get) => ({
+    data: [],
 
-  defaultDate: currentDate,
-  // dateSevenDayAgo: '' ,
-  // dateUrl: currentDate,
-  
-  data: [],
+    history: [],
 
-  inputValueFrom: "",
-  inputValueTo: "",
+    inputValueFrom: "",
+    inputValueTo: "",
+    inputName: "",
 
-  selectValueFrom: 'UAN',
-  selectValueTo: 'USD',
+    selectValueFrom: "UAN",
+    selectValueTo: "USD",
 
-  rateFrom: '',
-  rateTo: '',
+    rateFrom: "",
+    rateTo: "",
 
-   setDateValue: (value) => set({ defaultDate: value }),
+    course: 0,
 
-  // setDateUrl: () => {
-  //  const {defaultDate} = get();
-  //   set({dateUrl: defaultDate})
-  // },
+    setCourse: () => {
+      const { rateFrom, rateTo } = get();
+      set({ course: rateFrom / rateTo });
+    },
 
+    setHistory: () => {
+      const {
+        defaultDate,
+        inputValueFrom,
+        inputValueTo,
+        history,
+        selectValueFrom,
+        selectValueTo,
+      } = get();
 
-  // setPastDate: (num) => {
-  //    const {defaultDate,dateSevenDayAgo} = get();
-  //   // console.log(defaultDate)
-  //   set({dateSevenDayAgo: defaultDate.subtract(num, 'day')  })
-  //   // console.log(dateSevenDayAgo)
-  // },
+      const newHistoryItem = {
+        date: defaultDate.format("DD.MM.YYYY"),
+        sumFrom: inputValueFrom,
+        currencuFrom: selectValueFrom,
+        sumTo:  inputValueTo,
+        currencuTo: selectValueTo,
+      };
 
-  getData: (result) => set({ data: result}),
-  
-  setInputValueFrom: (value) => set({ inputValueFrom: value}),
-  setInputValueTo: (value) => set({ inputValueTo: value }), 
+      const lastHistoryItem = history.at(-1);
+      const maxHistoryLength = 10;
 
-  setSelectValueFrom: (value) => set({selectValueFrom: value}),
-  setSelectValueTo: (value) => set({selectValueTo: value}),
-
-  setRateFrom: (value) => set({rateFrom: value}),
-  setRateTo: (value) => set({rateTo: value}),
-
-  setSumFrom: () => {
-    const {rateFrom,rateTo,inputValueFrom} = get();
-    console.log(rateFrom,rateTo,inputValueFrom);
-    if(inputValueFrom){
-       const sumFrom = inputValueFrom * rateFrom / rateTo;
-       console.log(Math.floor(sumFrom * 100) / 100 );
-    set({inputValueTo: Math.floor(sumFrom * 100) / 100 })
-    } 
-  } ,
-  setSumTo: () => {
-     const {rateFrom,rateTo,inputValueTo} = get();
-      console.log(rateFrom,rateTo,inputValueTo);
-     if(inputValueTo){
-      const sumTo = inputValueTo * rateTo / rateFrom;
-       console.log( Math.floor(sumTo * 100) / 100 );
-     set({inputValueFrom: Math.floor(sumTo * 100) / 100 })
+      if(inputValueFrom||inputValueTo){
+        if (history.length < maxHistoryLength) {
+        if (!history.length) {
+          set((state) => ({
+            history: [...state.history, newHistoryItem],
+          }));
+        } else if (
+          
+          JSON.stringify(lastHistoryItem) !== JSON.stringify(newHistoryItem)
+        ) {
+          set((state) => ({
+            history: [...state.history, newHistoryItem],
+          }));
+        }
+      } else {
+        if (JSON.stringify(lastHistoryItem) !== JSON.stringify(newHistoryItem)) {
+          const cloneHistory = [...history];
+           cloneHistory.shift();
+          set(() => ({
+            history: [...cloneHistory, newHistoryItem],
+          }));
+        }
       }
-  } ,
-}));
+      }
+      
+    },
 
+    removeHistoru: () => set({history: []}),
 
+    setDateValue: (value) => set({ defaultDate: value }),
+
+    getData: (result) => set({ data: result }),
+
+    setInputValueFrom: (value) =>
+      set({ inputValueFrom: value, inputName: "From" }),
+    setInputValueTo: (value) => set({ inputValueTo: value, inputName: "To" }),
+
+    setSelectValueFrom: (value) => set({ selectValueFrom: value }),
+    setSelectValueTo: (value) => set({ selectValueTo: value }),
+
+    setRateFrom: (value) => set({ rateFrom: value }),
+    setRateTo: (value) => set({ rateTo: value }),
+
+    setSumFrom: () => {
+      const { course, inputValueFrom } = get();
+      if (inputValueFrom) {
+        const sumFrom = inputValueFrom * course;
+        const resalt = Math.floor(sumFrom * 100) / 100;
+        set({ inputValueTo: resalt });
+      }
+    },
+    setSumTo: () => {
+      const { course, inputValueTo } = get();
+      if (inputValueTo) {
+        const sumTo = inputValueTo / course;
+        const resalt =  Math.floor(sumTo * 100) / 100
+        set({ inputValueFrom: resalt});
+      }
+    },
+  }),
+  {
+    mame: 'history',
+    partialize: (state) => ({ history: state.history }),
+  })
+);
 
 export function getRateFromSelect(data, value) {
-  let multiplier = 1;
-  for (let obj of data) {
-    if (obj.cc === value) {
-      multiplier = obj.rate;
-      // console.log(`Course on gate: ${multiplier}`);
+ 
+  let currencyCur = 1;
+  for (let currency of data) {
+    if (currency.cc === value) {
+      currencyCur = currency.rate;
     }
   }
-  return multiplier;
+  return currencyCur;
 }

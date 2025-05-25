@@ -1,7 +1,6 @@
 .history {
   list-style: none;
   padding-top: 32px;
-  width: 392;
   display: flex;
   flex-wrap: wrap;
   column-gap: 48px;
@@ -9,14 +8,38 @@
 }
 
 .history__item {
-    display: block;
+  display: flex;
+  align-items: center;
   width: calc(50% - 24px);
-  /* width: 392px; */
   height: 42px;
-  background-color: #FFFFFF;
-  color: #707C87;
+  background-color: #ffffff;
+  color: #707c87;
   font-weight: 600;
   font-size: 18px;
-  text-align: center;
-  line-height: 42px;
 }
+
+.history-date {
+  margin-left: 10px;
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 18px;
+  color: #c1c2ca;
+}
+
+.item-sum {
+  margin-left: 10px;
+  font-family: Roboto;
+  font-weight: 600;
+  font-size: 18px;
+  color: #707c87;
+}
+
+.item-curs {
+  margin-left: 5px;
+  margin-right:10px;
+  font-family: Roboto;
+  font-weight: 600;
+  font-size: 18px;
+  color: #707c87;
+}
+
